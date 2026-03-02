@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-lang-key="newsTitle">Новости — Pocket World</title>
+  <style>
+    /* === Подключение шрифта Sjz === */
+    @font-face {
+        font-family: 'Sjz';
+        src: url('fonts/Sjz.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    /* === Общие стили === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Uncial Antiqua', serif;
+      background-color: #01161E;
+      color: #FFFFFF;
+      scroll-behavior: smooth;
+    }
+
+    /* === Все заголовки и акценты — Sjz === */
+    h1, h2, h3, h4, h5, h6,
+    .account-btn,
+    .account-btn-footer,
+    .nav-center a,
+    .footer-nav a,
+    .footer-nav button,
+    .page-title,
+    .news-title,
+    .read-more,
+    .logo-text,
+    .footer-logo-text,
+    .news-date {
+        font-family: 'Sjz', 'Uncial Antiqua', cursive;
+        color: #AEC3B0;
+        letter-spacing: 0.5px;
+    }
+
+    /* Цвет при наведении */
+    .nav-center a:hover,
+    .nav-center a.active,
+    .footer-nav a:hover,
+    .footer-nav button:hover,
+    .account-btn:hover,
+    .account-btn-footer:hover,
+    .read-more:hover {
+      color: #FFFFFF;
+    }
+
+    /* === Логотипы === */
+    .logo-text,
+    .footer-logo-text {
+        font-family: 'Sjz', 'Uncial Antiqua', cursive;
+        font-size: 38px;
+        color: #AEC3B0;
+        letter-spacing: 4px;
+        transition: color 0.2s;
+        white-space: nowrap;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+        font-weight: bold;
+    }
+
+    .logo-text:hover,
+    .footer-logo-text:hover {
+      color: #FFFFFF;
+    }
+
+    /* === Шапка === */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 100px;
+      background-color: rgba(1, 22, 30, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 0 40px;
+    }
+
+    .nav-center a {
+      text-decoration: none;
+      color: #AEC3B0;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+
+    .nav-center a.active {
+      color: #FFFFFF;
+      text-decoration: underline;
+      text-underline-offset: 8px;
+    }
+
+    .header-right {
+      margin-left: auto;
+    }
+
+    .account-btn {
+      background: transparent;
+      border: none;
+      color: #AEC3B0;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    /* === Основной контент === */
+    .main-content {
+      padding: 140px 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 50px;
+      color: #AEC3B0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Сетка новостей */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .news-card {
+      background: #021a24;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: 1px solid #2A6B84;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(174, 195, 176, 0.2);
+      border-color: #AEC3B0;
+    }
+
+    .news-content {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-date {
+      font-size: 16px;
+      color: #598392;
+      margin-bottom: 10px;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .news-title {
+      font-size: 26px;
+      margin-bottom: 15px;
+      color: #FFE5B4;
+      line-height: 1.3;
+    }
+
+    .news-excerpt {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #E0E0E0;
+      margin-bottom: 20px;
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+      flex: 1;
+    }
+
+    .news-gift {
+      background: rgba(18, 69, 95, 0.3);
+      border-left: 4px solid #FFE5B4;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      font-family: 'Uncial Antiqua', serif;
+      color: #FFE5B4;
+    }
+
+    .news-gift a {
+      color: #AEC3B0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .news-gift a:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    .news-highlight {
+      background: rgba(89, 131, 146, 0.2);
+      border: 1px solid #598392;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 15px 0;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .news-bullets {
+      list-style: none;
+      padding: 10px 0;
+    }
+
+    .news-bullets li {
+      margin: 8px 0;
+      padding-left: 20px;
+      position: relative;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .news-bullets li:before {
+      position: absolute;
+      left: 0;
+      color: #FFE5B4;
+    }
+
+    .news-warning {
+      background: rgba(212, 64, 64, 0.1);
+      border: 1px solid #D44040;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 15px 0;
+      color: #ff9999;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .read-more {
+      display: inline-block;
+      color: #AEC3B0;
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s;
+      margin-top: 15px;
+      align-self: flex-start;
+    }
+
+    /* === Боковая панель аккаунта === */
+    .account-sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 330px;
+      height: 100vh;
+      background-color: #12455F;
+      border-left: 1px solid #2A6B84;
+      z-index: 1001;
+      transition: right 0.3s ease-in-out;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-sidebar.open {
+      right: 0;
+    }
+
+    .account-content {
+      color: #FFE5B4;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .account-content a {
+      color: #FFE5B4;
+      text-decoration: none;
+      font-size: 24px;
+      display: block;
+      margin: 15px 0;
+      transition: color 0.2s;
+    }
+
+    .account-content a:hover {
+      color: #FFFFFF;
+    }
+
+    /* === Подвал === */
+    .footer {
+      background-color: #021a24;
+      padding: 60px 40px 30px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top,
+    .footer-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-top {
+      margin-bottom: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .footer-nav a,
+    .footer-nav button {
+      background: transparent;
+      border: none;
+      color: #AEC3B0;
+      font-size: 20px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .footer-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scroll-to-top {
+      background: none;
+      border: none;
+      color: #AEC3B0;
+      font-size: 24px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .scroll-to-top:hover {
+      color: #FFFFFF;
+    }
+
+    .language-selector {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #AEC3B0;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #021a24;
+      border: 1px solid #598392;
+      border-radius: 6px;
+      padding: 8px 0;
+      width: 70px;
+      display: none;
+      z-index: 10;
+    }
+
+    .lang-dropdown.show {
+      display: block;
+    }
+
+    .lang-option {
+      padding: 8px 15px;
+      text-align: center;
+      color: #AEC3B0;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.2s;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .lang-option:hover {
+      background: #0a3a4a;
+      color: #FFFFFF;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-social img {
+      height: 32px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-social img:hover {
+      opacity: 0.8;
+    }
+
+    .footer-extra-links {
+      display: flex;
+      gap: 20px;
+      color: #FFFFFF;
+      font-size: 16px;
+    }
+
+    .footer-extra-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+    }
+
+    .footer-extra-links a:hover {
+      color: #AEC3B0;
+    }
+
+    .footer-divider {
+      height: 2px;
+      background-color: #598392;
+      margin: 30px auto 20px;
+      max-width: 1200px;
+    }
+
+    .footer-copyright {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    .footer-copyright p {
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+    }
+
+    /* === Адаптивность === */
+    @media (max-width: 768px) {
+      header {
+        padding: 0 20px;
+        height: 90px;
+      }
+
+      .nav-center {
+        margin: 0 20px;
+        gap: 16px;
+      }
+      
+      .nav-center a {
+        font-size: 18px;
+      }
+      
+      .account-btn {
+        font-size: 18px;
+      }
+
+      .main-content {
+        padding: 120px 20px 60px;
+      }
+      
+      .page-title {
+        font-size: 40px;
+      }
+      
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .news-title {
+        font-size: 24px;
+      }
+      
+      .news-excerpt {
+        font-size: 16px;
+      }
+
+      .footer-top,
+      .footer-bottom-row {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logo-text,
+      .footer-logo-text {
+        font-size: 32px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-center {
+        display: none;
+      }
+      
+      .header-right {
+        margin-left: 0;
+      }
+      
+      .logo-text,
+      .footer-logo-text {
+        font-size: 28px;
+      }
+      
+      .account-sidebar {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header>
+    <div class="logo">
+      <span class="logo-text">Pocket World</span>
+    </div>
+    <div class="nav-center">
+      <a href="../index.html#features" data-lang-key="about">О игре</a>
+      <a href="../index.html#characters" data-lang-key="heroes">Герои</a>
+      <a href="news.html" class="active" data-lang-key="news">Новости</a>
+      <a href="../index.html#gallery-section" data-lang-key="gallery">Галерея</a>
+    </div>
+    <div class="header-right">
+      <button class="account-btn" id="accountToggleBtn" data-lang-key="account">Аккаунт</button>
+    </div>
+  </header>
+
+  <!-- Боковая панель -->
+  <div class="account-sidebar" id="accountSidebar">
+    <div class="account-content"></div>
+  </div>
+
+  <!-- Основной контент -->
+  <main class="main-content">
+    <h1 class="page-title" data-lang-key="news">Новости</h1>
+
+    <div class="news-grid">
+      <!-- Новость 1: С Новым годом! -->
+      <article class="news-card" onclick="window.location.href='news/2025-12-31-new-year.html'">
+        <div class="news-content">
+          <div class="news-date" data-lang-key="news1Date">31 декабря 2025</div>
+          <h2 class="news-title" data-lang-key="news1Title">С Новым годом! Загадки ждут в новом году…</h2>
+          <div class="news-excerpt" data-lang-key="news1Excerpt">
+            Когда часы пробьют полночь, а за окном замелькают первые снежинки, вспомните о том доме с пустым пространством между кухней и гостиной…
+            <br><br>
+            В новом году вас ждут новые открытия. Возможно, именно в январе вы найдёте ответ на вопрос, который мучил вас весь декабрь. А может, откроете для себя что-то совершенно неожиданное…
+          </div>
+          <div class="news-gift">
+          </div>
+          <div class="news-excerpt" data-lang-key="news1Footer">
+            Пусть наступающий год принесёт вам столько же тайн и открытий, сколько их скрыто за стенами странного дома…
+          </div>
+          <span class="read-more" data-lang-key="readMore">Читать далее →</span>
+        </div>
+      </article>
+
+      <!-- Новость 2: 14 февраля -->
+      <article class="news-card" onclick="window.location.href='news/2026-02-13-valentine.html'">
+        <div class="news-content">
+          <div class="news-date" data-lang-key="news2Date">13 февраля 2026</div>
+          <h2 class="news-title" data-lang-key="news2Title">14 февраля — День, когда сердца раскрывают свои тайны</h2>
+          <div class="news-excerpt" data-lang-key="news2Excerpt">
+            В мире «Странного дома» любовь — это не только нежные слова и объятия. Иногда она прячется за закрытыми дверями, за молчанием, за поступками, которые кажутся жестокими, но на самом деле продиктованы заботой…
+            <br><br>
+            Вспомните разговор Янаоки с автором. Вспомните, как один человек готов помочь другому разгадать загадку, даже если это опасно…
+          </div>
+          <div class="news-gift">
+            <strong data-lang-key="news2GiftTitle">Особое предложение:</strong><br>
+            <span data-lang-key="news2GiftText">14 февраля в игре появится временный предмет — «Письмо с признанием». Найдите его на рабочем столе автора и прочтите строки, которые никогда не попали в финальную версию игры…</span>
+          </div>
+          <div class="news-excerpt" data-lang-key="news2Footer">
+            Иногда самые важные слова — те, что остаются невысказанными. Но их можно прочитать между строк…
+          </div>
+          <span class="read-more" data-lang-key="readMore">Читать далее →</span>
+        </div>
+      </article>
+
+      <!-- Новость 3: Масленица -->
+      <article class="news-card" onclick="window.location.href='news/2026-02-24-maslenitsa.html'">
+        <div class="news-content">
+          <div class="news-date" data-lang-key="news3Date">24 февраля 2026</div>
+          <h2 class="news-title" data-lang-key="news3Title">Масленица — время прощаться с тайнами</h2>
+          <div class="news-excerpt" data-lang-key="news3Excerpt">
+            Масленица — время прощаний. Прощание с зимой, с холодом, с темнотой…
+            <br><br>
+            Но что, если некоторые тайны не хотят уходить вместе с зимой? Что, если пепел от сгоревшего чучела хранит секреты, которые должны остаться с нами до конца дней?
+            <br><br>
+            В игре «Странный дом» тоже есть свои «масленичные» моменты — моменты, когда кажется, что загадка вот-вот разрешится… но вместо ответов появляются новые вопросы.
+          </div>
+          <div class="news-highlight">
+            <strong data-lang-key="news3TraditionTitle">Традиция:</strong><br>
+            <span data-lang-key="news3TraditionText">В эти дни в игре активируется скрытый диалог. Нажмите 7 раз на иконку сумки во время диалога с автором — и вы услышите историю, которую он никогда никому не рассказывал…</span>
+          </div>
+          <div class="news-excerpt" data-lang-key="news3Footer">
+            Прощай, зима. Но не прощайся с тайнами — они останутся с нами навсегда.
+          </div>
+          <span class="read-more" data-lang-key="readMore">Читать далее →</span>
+        </div>
+      </article>
+
+      <!-- Новость 4: Третья глава -->
+      <article class="news-card" onclick="window.location.href='news/2026-03-10-chapter3.html'">
+        <div class="news-content">
+          <div class="news-date" data-lang-key="news4Date">10 марта 2026</div>
+          <h2 class="news-title" data-lang-key="news4Title">Третья глава уже в работе!</h2>
+          <div class="news-excerpt" data-lang-key="news4Excerpt">
+            Тишина в доме обманчива.
+            <br><br>
+            Пока вы разгадывали загадку пустого пространства, за стенами происходило нечто большее. Пока вы анализировали план второго этажа, в тени зрел новый сюжет…
+            <br><br>
+            Мы рады сообщить: разработка третьей главы официально началась!
+          </div>
+          <div class="news-highlight">
+            <strong data-lang-key="news4WhatTitle">Что вас ждёт:</strong>
+            <ul class="news-bullets">
+              <li data-lang-key="news4What1">🔸 Новая локация — дом, который отражает первый, как зеркало</li>
+              <li data-lang-key="news4What2">🔸 Загадка, связанная с прошлым семьи Катабути</li>
+              <li data-lang-key="news4What3">🔸 Персонаж, который знает больше, чем кажется</li>
+              <li data-lang-key="news4What4">🔸 Выбор, от которого зависит судьба одного из героев</li>
+            </ul>
+          </div>
+          <div class="news-warning">
+            <strong data-lang-key="news4Warning">Важно:</strong> <span data-lang-key="news4WarningText">Третья глава будет доступна только тем, кто завершил вторую главу. Тайны должны раскрываться по порядку…</span>
+          </div>
+          <div class="news-excerpt" data-lang-key="news4Footer">
+            Следите за обновлениями. Первые скриншоты появятся уже в апреле.
+            <br><br>
+            А пока — перечитайте диалоги. Возможно, вы упустили деталь, которая станет ключом к новой главе…
+          </div>
+          <span class="read-more" data-lang-key="readMore">Читать далее →</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <span class="footer-logo-text">Pocket World</span>
+        </div>
+        <div class="footer-nav">
+          <a href="../index.html#characters" data-lang-key="heroes">Герои</a>
+          <a href="sidebar/review.html" data-lang-key="feedback">Отзывы</a>
+          <button class="account-btn-footer" id="accountToggleBtnFooter" data-lang-key="loginRegister">Войти / Регистрация</button>
+        </div>
+        <div class="footer-controls">
+          <button class="scroll-to-top">↑</button>
+          <div class="language-selector" id="languageSelector">
+            <span class="current-lang">Ru</span>
+            <span class="lang-arrow">▼</span>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="ru">Ru</div>
+              <div class="lang-option" data-lang="en">En</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <div class="footer-social">
+        <a href="#" id="vk-link">
+          <img src="image/vk.svg" alt="ВКонтакте">
+        </a>
+        <a href="https://t.me/+d1kPrFxhLWAwMDk6" target="_blank">
+          <img src="image/telegram.svg" alt="Telegram">
+        </a>
+      </div>
+      <div></div>
+      <div class="footer-extra-links">
+        <a href="#" data-lang-key="privacy">Политика конфиденциальности</a>
+        <a href="sidebar/Help_Desk.html" data-lang-key="support">Поддержка</a>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+    <div class="footer-copyright">
+      <p data-lang-key="copyright">© 2025 Pocket World. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script>
+    // === ПЕРЕВОДЫ ===
+    const translations = {
+      ru: {
+        'about': 'О игре',
+        'heroes': 'Герои',
+        'news': 'Новости',
+        'gallery': 'Галерея',
+        'account': 'Аккаунт',
+        'login': 'Войти',
+        'loginRegister': 'Войти / Регистрация',
+        'readMore': 'Читать далее →',
+        'feedback': 'Отзывы',
+        'privacy': 'Политика конфиденциальности',
+        'support': 'Поддержка',
+        'copyright': '© 2025 Pocket World. Все права защищены.',
+        
+        // Новость 1
+        'news1Date': '31 декабря 2025',
+        'news1Title': 'С Новым годом! Загадки ждут в новом году…',
+        'news1Excerpt': 'Когда часы пробьют полночь, а за окном замелькают первые снежинки, вспомните о том доме с пустым пространством между кухней и гостиной…\n\nВ новом году вас ждут новые открытия. Возможно, именно в январе вы найдёте ответ на вопрос, который мучил вас весь декабрь. А может, откроете для себя что-то совершенно неожиданное…',
+        'news1Footer': 'Пусть наступающий год принесёт вам столько же тайн и открытий, сколько их скрыто за стенами странного дома…',
+        
+        // Новость 2
+        'news2Date': '13 февраля 2026',
+        'news2Title': '14 февраля — День, когда сердца раскрывают свои тайны',
+        'news2Excerpt': 'В мире «Странного дома» любовь — это не только нежные слова и объятия. Иногда она прячется за закрытыми дверями, за молчанием, за поступками, которые кажутся жестокими, но на самом деле продиктованы заботой…\n\nВспомните разговор Янаоки с автором. Вспомните, как один человек готов помочь другому разгадать загадку, даже если это опасно…',
+        'news2GiftTitle': 'Особое предложение:',
+        'news2GiftText': '14 февраля в игре появится временный предмет — «Письмо с признанием». Найдите его на рабочем столе автора и прочтите строки, которые никогда не попали в финальную версию игры…',
+        'news2Footer': 'Иногда самые важные слова — те, что остаются невысказанными. Но их можно прочитать между строк…',
+        
+        // Новость 3
+        'news3Date': '24 февраля 2026',
+        'news3Title': 'Масленица — время прощаться с тайнами',
+        'news3Excerpt': 'Масленица — время прощаний. Прощание с зимой, с холодом, с темнотой…\n\nНо что, если некоторые тайны не хотят уходить вместе с зимой? Что, если пепел от сгоревшего чучела хранит секреты, которые должны остаться с нами до конца дней?\n\nВ игре «Странный дом» тоже есть свои «масленичные» моменты — моменты, когда кажется, что загадка вот-вот разрешится… но вместо ответов появляются новые вопросы.',
+        'news3TraditionTitle': 'Традиция:',
+        'news3TraditionText': 'В эти дни в игре активируется скрытый диалог. Нажмите 7 раз на иконку сумки во время диалога с автором — и вы услышите историю, которую он никогда никому не рассказывал…',
+        'news3Footer': 'Прощай, зима. Но не прощайся с тайнами — они останутся с нами навсегда.',
+        
+        // Новость 4
+        'news4Date': '10 марта 2026',
+        'news4Title': 'Третья глава уже в работе!',
+        'news4Excerpt': 'Тишина в доме обманчива.\n\nПока вы разгадывали загадку пустого пространства, за стенами происходило нечто большее. Пока вы анализировали план второго этажа, в тени зрел новый сюжет…\n\nМы рады сообщить: разработка третьей главы официально началась!',
+        'news4WhatTitle': 'Что вас ждёт:',
+        'news4What1': '● Новая локация — дом, который отражает первый, как зеркало',
+        'news4What2': '● Загадка, связанная с прошлым семьи Катабути',
+        'news4What3': '● Персонаж, который знает больше, чем кажется',
+        'news4What4': '● Выбор, от которого зависит судьба одного из героев',
+        'news4Warning': 'Важно:',
+        'news4WarningText': 'Третья глава будет доступна только тем, кто завершил вторую главу. Тайны должны раскрываться по порядку…',
+        'news4Footer': 'Следите за обновлениями. Первые скриншоты появятся уже в апреле.\n\nА пока — перечитайте диалоги. Возможно, вы упустили деталь, которая станет ключом к новой главе…'
+      },
+      en: {
+        'about': 'About',
+        'heroes': 'Heroes',
+        'news': 'News',
+        'gallery': 'Gallery',
+        'account': 'Account',
+        'login': 'Login',
+        'loginRegister': 'Login / Register',
+        'readMore': 'Read more →',
+        'feedback': 'Feedback',
+        'privacy': 'Privacy Policy',
+        'support': 'Support',
+        'copyright': '© 2025 Pocket World. All rights reserved.',
+        
+        // News 1
+        'news1Date': 'December 31, 2025',
+        'news1Title': 'Happy New Year! Mysteries await in the new year…',
+        'news1Excerpt': 'When the clock strikes midnight and the first snowflakes flash outside the window, remember that house with empty space between the kitchen and living room…\n\nNew discoveries await you in the new year. Perhaps in January you will find the answer to the question that tormented you all December. Or maybe you will discover something completely unexpected…',
+        'news1Footer': 'May the coming year bring you as many secrets and discoveries as are hidden behind the walls of the strange house…',
+        
+        // News 2
+        'news2Date': 'February 13, 2026',
+        'news2Title': 'February 14 — The day when hearts reveal their secrets',
+        'news2Excerpt': 'In the world of the "Strange House", love is not only tender words and hugs. Sometimes it hides behind closed doors, behind silence, behind actions that seem cruel but are actually dictated by care…\n\nRemember Yanaoka\'s conversation with the author. Remember how one person is ready to help another solve a mystery, even if it\'s dangerous…',
+        'news2GiftTitle': 'Special offer:',
+        'news2GiftText': 'On February 14, a temporary item will appear in the game — "Love Letter". Find it on the author\'s desktop and read the lines that never made it into the final version of the game…',
+        'news2Footer': 'Sometimes the most important words are those left unspoken. But they can be read between the lines…',
+        
+        // News 3
+        'news3Date': 'February 24, 2026',
+        'news3Title': 'Maslenitsa — time to say goodbye to secrets',
+        'news3Excerpt': 'Maslenitsa is a time of farewells. Farewell to winter, to cold, to darkness…\n\nBut what if some secrets don\'t want to leave with winter? What if the ashes of the burnt effigy keep secrets that should stay with us until the end of days?\n\nIn the game "Strange House" there are also "Maslenitsa" moments — moments when it seems the mystery is about to be solved… but instead of answers, new questions appear.',
+        'news3TraditionTitle': 'Tradition:',
+        'news3TraditionText': 'These days, a hidden dialogue is activated in the game. Press the bag icon 7 times during the dialogue with the author — and you will hear a story he never told anyone…',
+        'news3Footer': 'Goodbye, winter. But don\'t say goodbye to secrets — they will stay with us forever.',
+        
+        // News 4
+        'news4Date': 'March 10, 2026',
+        'news4Title': 'Chapter three is already in development!',
+        'news4Excerpt': 'The silence in the house is deceptive.\n\nWhile you were solving the mystery of the empty space, something bigger was happening behind the walls. While you were analyzing the second floor plan, a new plot was brewing in the shadows…\n\nWe are happy to announce: development of the third chapter has officially begun!',
+        'news4WhatTitle': 'What awaits you:',
+        'news4What1': '● New location — a house that mirrors the first like a reflection',
+        'news4What2': '● Mystery connected to the Katabuchi family\'s past',
+        'news4What3': '● A character who knows more than it seems',
+        'news4What4': '● A choice that determines the fate of one of the heroes',
+        'news4Warning': 'Important:',
+        'news4WarningText': 'The third chapter will only be available to those who have completed the second chapter. Secrets must be revealed in order…',
+        'news4Footer': 'Follow updates. First screenshots will appear in April.\n\nIn the meantime, re-read the dialogues. Perhaps you missed a detail that will become the key to the new chapter…'
+      }
+    };
+
+    function applyTranslations() {
+      const lang = localStorage.getItem('userLang') || 'ru';
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (translations[lang] && translations[lang][key]) {
+          if (el.tagName === 'TITLE') {
+            el.textContent = translations[lang][key];
+          } else {
+            el.textContent = translations[lang][key];
+          }
+        }
+      });
+      const currentLang = document.querySelector('.current-lang');
+      if (currentLang) {
+        currentLang.textContent = lang === 'ru' ? 'Ru' : 'En';
+      }
+      
+      // Обновляем заголовок страницы
+      const titleKey = document.querySelector('title')?.getAttribute('data-lang-key');
+      if (titleKey && translations[lang][titleKey]) {
+        document.title = translations[lang][titleKey];
+      }
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('userLang', lang);
+      applyTranslations();
+    }
+
+    // === Инициализация ===
+    document.addEventListener('DOMContentLoaded', () => {
+      // Язык
+      const savedLang = localStorage.getItem('userLang') || (navigator.language.startsWith('ru') ? 'ru' : 'en');
+      setLanguage(savedLang);
+
+      // Выбор языка
+      const langSelector = document.getElementById('languageSelector');
+      const langDropdown = document.getElementById('langDropdown');
+      if (langSelector) {
+        langSelector.addEventListener('click', e => {
+          e.stopPropagation();
+          langDropdown.classList.toggle('show');
+        });
+      }
+      document.addEventListener('click', e => {
+        if (!e.target.closest('#languageSelector')) {
+          langDropdown?.classList.remove('show');
+        }
+      });
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          setLanguage(opt.getAttribute('data-lang'));
+          langDropdown.classList.remove('show');
+        });
+      });
+
+      // Аккаунт — боковая панель
+      const updateAccountContent = () => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const content = document.querySelector('.account-content');
+        if (!content) return;
+
+        const lang = localStorage.getItem('userLang') || 'ru';
+        
+        if (isLoggedIn) {
+          content.innerHTML = `
+            <div style="font-size: 24px; margin-bottom: 20px; color: #FFE5B4;" data-lang-key="account">${translations[lang].account}</div>
+            <a href="sidebar/settings.html" style="font-size: 20px;" data-lang-key="settings">Настройки</a>
+            <a href="sidebar/Help_Desk.html" style="font-size: 20px;" data-lang-key="support">Служба поддержки</a>
+            <a href="sidebar/review.html" style="font-size: 20px;" data-lang-key="feedback">Отзыв</a>
+            <div style="height: 2px; background: #2A6B84; margin: 20px 0;"></div>
+            <div style="font-size: 18px; color: #E0E0E0; margin: 20px 0;" data-lang-key="enjoy">приятного использования нашим сайтом :)</div>
+            <a href="#" onclick="localStorage.removeItem('isLoggedIn'); location.reload();" style="color: #ff6b6b; font-size: 20px;" data-lang-key="logout">Выйти</a>
+            <div style="font-size: 16px; color: #B0B0B0; margin-top: 20px;" data-lang-key="copyright">${translations[lang].copyright}</div>
+          `;
+        } else {
+          content.innerHTML = `
+            <a href="../auth/index.html" style="font-size: 28px; margin: 10px 0;" data-lang-key="register">Зарегистрироваться</a>
+            <a href="../auth/register.html" style="font-size: 28px; margin: 10px 0;" data-lang-key="login">Войти</a>
+            <div style="height: 2px; background: #2A6B84; margin: 20px 0;"></div>
+            <a href="sidebar/settings.html" style="font-size: 24px; margin: 10px 0;" data-lang-key="settings">Настройки</a>
+            <a href="sidebar/Help_Desk.html" style="font-size: 24px; margin: 10px 0;" data-lang-key="support">Служба поддержки</a>
+            <a href="sidebar/review.html" style="font-size: 24px; margin: 10px 0;" data-lang-key="feedback">Отзыв</a>
+            <a href="test_version_of_the_game/test_game.html" style="font-size: 28px; margin: 15px 0; color: #FFE5B4;" data-lang-key="downloadGame">Игра</a>
+            <div style="height: 2px; background: #2A6B84; margin: 20px 0;"></div>
+            <div style="font-size: 22px; color: #E0E0E0; text-align: center; margin: 20px 0;" data-lang-key="enjoy">приятного использования нашим сайтом :)</div>
+            <div style="font-size: 20px; color: #B0B0B0; text-align: center; margin-top: 20px;" data-lang-key="copyright">${translations[lang].copyright}</div>
+          `;
+        }
+        
+        // Применяем переводы к новой панели
+        applyTranslations();
+      };
+
+      const toggleSidebar = () => {
+        const sidebar = document.getElementById('accountSidebar');
+        sidebar.classList.toggle('open');
+        if (sidebar.classList.contains('open')) updateAccountContent();
+      };
+
+      ['accountToggleBtn', 'accountToggleBtnFooter'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.addEventListener('click', toggleSidebar);
+      });
+
+      document.addEventListener('click', e => {
+        const sidebar = document.getElementById('accountSidebar');
+        if (sidebar?.classList.contains('open') &&
+            !e.target.closest('.account-sidebar') &&
+            !e.target.closest('.account-btn') &&
+            !e.target.closest('.account-btn-footer')) {
+          sidebar.classList.remove('open');
+        }
+      });
+
+      // Наверх
+      document.querySelector('.scroll-to-top')?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // VK
+      document.getElementById('vk-link')?.addEventListener('click', e => {
+        e.preventDefault();
+        alert('Извините, группа ВКонтакте пока не создана, но появится в ближайшее время!');
+      });
+    });
+  </script>
+
+</body>
+</html>
