@@ -1,4 +1,4 @@
-/* Подключение шрифта Sjz */
+/* Sjz */
 @font-face {
   font-family: 'Sjz';
   src: url('website/fonts/Sjz.otf') format('opentype');
@@ -281,7 +281,7 @@ header {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* === Боковая панель аккаунта === */
+/* === Боковая панель === */
 .account-sidebar {
   position: fixed;
   top: 0;
@@ -552,7 +552,7 @@ header {
   font-family: 'Uncial Antiqua', 'Arial', serif;
 }
 
-/* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
+/* ===АДАПТАЦИЯ === */
 @media (max-width: 768px) {
   /* Шапка */
   header {
@@ -565,7 +565,7 @@ header {
     letter-spacing: 2px;
   }
   
-  /* В шапке только Новости и Аккаунт */
+  /*  шапке Новости и Аккаунт */
   .nav-center a:not([data-lang-key="news"]) {
     display: none;
   }
@@ -658,7 +658,7 @@ header {
     gap: 10px;
   }
   
-  /* Подвал - убираем Герои и Отзывы, оставляем Новости и Войти */
+  /* Подвал Новости и Войти */
   .footer-nav a[data-lang-key="heroes"],
   .footer-nav a[data-lang-key="feedback"] {
     display: none;
@@ -789,4 +789,5 @@ header {
     font-size: 16px;
     padding: 10px;
   }
+
 }
