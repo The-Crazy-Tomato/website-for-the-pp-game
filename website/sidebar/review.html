@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-lang-key="reviewTitle">Ваши отзывы — Pocket World</title>
   <style>
-    /* === Подключение шрифта Sjz === */
+    /* === Sjz === */
     @font-face {
         font-family: 'Sjz';
         src: url('../fonts/Sjz.otf') format('opentype');
@@ -54,7 +54,7 @@
       position: relative;
     }
 
-    /* === Кнопка "Назад" - кружочек === */
+    /* === Кнопка Назад === */
     .back-button {
       position: absolute;
       top: -40px;
@@ -104,7 +104,7 @@
       z-index: 1;
     }
 
-    /* === Стрелки навигации - всегда сверху === */
+    /* === Стрелки навигации === */
     .nav-arrow {
       width: 50px;
       height: 50px;
@@ -215,7 +215,6 @@
       -webkit-mask-image: none;
     }
 
-    /* === Кнопка чтения дальше в стиле "ещё" === */
     .read-more-wrapper {
       margin-top: 15px;
       text-align: right;
@@ -488,7 +487,7 @@
       cursor: not-allowed;
     }
 
-/* === МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ ОТЗЫВОВ === */
+/* ===АДАПТАЦИЯ ОТЗЫВ === */
 @media (max-width: 768px) {
   .review-page {
     margin: 40px auto;
@@ -677,7 +676,7 @@
 <body>
 
 <div class="review-page">
-  <!-- Кнопка "Назад" - кружочек -->
+  <!-- Кнопка Назад -->
   <a href="../../index.html" class="back-button">
     <span>←</span>
   </a>
@@ -848,7 +847,7 @@
     }
   };
 
-  // 👇 ПОЛУЧАЕМ ДАННЫЕ ИЗ LOCALSTORAGE
+  //   ДАННЫЕ ИЗ LOCALSTORAGE
   function getCurrentUser() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!isLoggedIn) return null;
@@ -923,7 +922,7 @@
     applyTranslations();
   }
 
-  // 👇 ОБНОВЛЕННАЯ ПРОВЕРКА АВТОРИЗАЦИИ
+  //  ПРОВЕРКА АВТОРИЗАЦИИ
   function checkAuth() {
     const commentInput = document.getElementById('commentInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -1146,7 +1145,6 @@
     });
   }
 
-  // 👇 ИСПРАВЛЕННАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ КОММЕНТАРИЯ
   function addUserComment(text, rating) {
     // Находим контейнер с отзывами
     const reviewsStack = document.getElementById('reviewsStack');
@@ -1300,7 +1298,7 @@
   });
 </script>
 
-<!-- Языковой селектор (должен быть в подвале главной страницы) -->
+<!-- Языковой селектор  -->
 <div style="display: none;">
   <div class="language-selector" id="languageSelector">
     <span class="current-lang">Ru</span>
@@ -1313,4 +1311,5 @@
 </div>
 
 </body>
+
 </html>
