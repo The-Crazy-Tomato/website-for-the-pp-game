@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pocket World — Игра (демо-версия)</title>
   <style>
-    /* === Подключение шрифта Sjz === */
+    /* === Sjz === */
     @font-face {
         font-family: 'Sjz';
         src: url('../fonts/Sjz.otf') format('opentype');
@@ -49,7 +49,7 @@
       width: 1024px;
       max-width: 100%;
       display: flex;
-      justify-content: space-between; /* Кнопки по краям */
+      justify-content: space-between; 
       align-items: center;
       margin-bottom: 20px;
     }
@@ -525,7 +525,7 @@
     /* === Адаптивность === */
     @media (max-width: 1024px) {
       .site-header {
-        flex-direction: row; /* Оставляем в ряд даже на мобильных */
+        flex-direction: row; 
         flex-wrap: wrap;
         justify-content: space-between;
         gap: 10px;
@@ -549,7 +549,7 @@
 
   <div class="game-wrapper">
     <div class="game-container" id="gameContainer">
-      <!-- Здесь будет динамически загружаться контент через JavaScript -->
+      <!-- загружаться контент через JavaScript -->
     </div>
   </div>
 
@@ -562,7 +562,7 @@
   <script>
     // Состояние игры
     const GameState = {
-      scene: 'menu', // menu, intro, dialogue, ending, present_intro, bag, phone
+      scene: 'menu',
       dialogueIndex: 0,
       textProgress: 0,
       textSpeed: 25,
@@ -920,4 +920,5 @@
     render();
   </script>
 </body>
+
 </html>
