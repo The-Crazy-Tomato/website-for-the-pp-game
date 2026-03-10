@@ -1,5 +1,5 @@
 <?php
-// 🔥 Включаем отображение всех ошибок (только для отладки!)
+//  Включаем отображение всех ошибок 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -34,7 +34,7 @@ try {
         $_SESSION['email'] = $user['email'];
         $_SESSION['logged_in'] = true;
         
-        // 👇 Возвращаем JSON с данными пользователя
+        //  Возвращаем JSON с данными пользователя
         echo json_encode([
             'success' => true,
             'user' => [
@@ -50,4 +50,5 @@ try {
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Ошибка сервера: ' . $e->getMessage()]);
 }
+
 ?>
