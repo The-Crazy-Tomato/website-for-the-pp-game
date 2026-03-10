@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-lang-key="characterTitle">Yuzuki Katabuchi — Персонаж | Pocket World</title>
+  <style>
+    /* === Подключение шрифта Sjz === */
+    @font-face {
+        font-family: 'Sjz';
+        src: url('../../fonts/Sjz.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    :root {
+      --bg: #01161E;
+      --text: #FFFFFF;
+      --accent: #AEC3B0;
+      --card-bg: #021a24;
+      --sidebar-bg: #12455F;
+      --accent-text: #FFE5B4;
+      --border-color: #2A6B84;
+      --border: #598392;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Uncial Antiqua', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+
+    /* === Sjz для заголовков === */
+    h1, h2, h3, h4, h5, h6,
+    .page-title,
+    .character-summary strong,
+    .detail-box h3,
+    .nav-center a,
+    .footer-nav a,
+    .account-btn,
+    .logo-text,
+    .footer-logo-text {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+
+    /* === Шапка === */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 100px;
+      background-color: rgba(1, 22, 30, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-text {
+      font-size: 38px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      transition: color 0.2s;
+      white-space: nowrap;
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+      font-weight: bold;
+    }
+
+    .logo-text:hover {
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 0 40px;
+    }
+
+    .nav-center a {
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+
+    .nav-center a:hover {
+      color: #FFFFFF;
+    }
+
+    .header-right {
+      margin-left: auto;
+    }
+
+    .account-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .account-btn:hover {
+      color: #FFFFFF;
+    }
+
+    /* === Боковая панель аккаунта === */
+    .account-sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 330px;
+      height: 100vh;
+      background-color: #12455F;
+      border-left: 1px solid #2A6B84;
+      z-index: 1001;
+      transition: right 0.3s ease-in-out;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-sidebar.open {
+      right: 0;
+    }
+
+    .account-content {
+      color: #FFE5B4;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .account-content a {
+      color: #FFE5B4;
+      text-decoration: none;
+      font-size: 24px;
+      display: block;
+      margin: 15px 0;
+      transition: color 0.2s;
+    }
+
+    .account-content a:hover {
+      color: #FFFFFF;
+    }
+
+    .account-divider {
+      height: 2px;
+      background-color: #2A6B84;
+      margin: 20px 0;
+    }
+
+    .account-info {
+      font-size: 18px;
+      color: #E0E0E0;
+      text-align: center;
+      margin: 20px 0;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .account-copyright {
+      font-size: 16px;
+      color: #B0B0B0;
+      text-align: center;
+      margin-top: 20px;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    /* Стили для кнопок входа/регистрации */
+    .login-register-btn {
+      font-size: 28px;
+      margin: 10px 0;
+      display: block;
+      color: #FFE5B4;
+      text-decoration: none;
+      text-align: center;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .account-download {
+      font-size: 28px;
+      margin: 15px 0;
+      display: block;
+      color: #FFE5B4;
+      text-decoration: none;
+      text-align: center;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .account-nav a {
+      font-size: 24px;
+      margin: 10px 0;
+      display: block;
+      color: #FFE5B4;
+      text-decoration: none;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    /* Стили для авторизованного пользователя */
+    .account-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .account-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #AEC3B0;
+      color: #01161E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin: 0 auto 10px;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .account-username {
+      font-size: 24px;
+      color: #FFE5B4;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: transparent;
+      border: 2px solid #ff6b6b;
+      color: #ff6b6b;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #ff6b6b;
+      color: #01161E;
+    }
+
+    /* === Основной контент === */
+    .character-page {
+      padding-top: 140px;
+      padding-bottom: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .image-swap-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 420px;
+      object-fit: contain;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background-color: #021a24;
+    }
+
+    .thumbnail {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      border: 2px solid var(--accent);
+    }
+
+    .thumbnail:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+      border-color: var(--accent-text);
+    }
+
+    /* Краткая информация */
+    .character-summary {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 20px;
+      color: var(--accent);
+      background: rgba(18, 69, 95, 0.3);
+      padding: 20px 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--border-color);
+    }
+
+    .character-summary div {
+      margin: 8px 0;
+    }
+
+    .character-summary strong {
+      color: var(--accent-text);
+      font-size: 22px;
+    }
+
+    /* Детали — вертикально */
+    .character-details {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 1200px;
+      width: 100%;
+      padding: 0 40px;
+    }
+
+    .detail-box {
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--border-color);
+    }
+
+    .detail-box h3 {
+      font-size: 32px;
+      color: var(--accent-text);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 12px;
+    }
+
+    .detail-box p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #E0E0E0;
+      text-align: justify;
+      margin-bottom: 15px;
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+    }
+
+    /* === Подвал === */
+    .footer {
+      background-color: #021a24;
+      padding: 60px 40px 30px;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top,
+    .footer-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-top {
+      margin-bottom: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-logo-text {
+      font-size: 32px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      transition: color 0.2s;
+      white-space: nowrap;
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .footer-logo-text:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+
+    .footer-nav a:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scroll-to-top {
+      background: transparent;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--accent);
+      transition: all 0.2s;
+    }
+
+    .scroll-to-top:hover {
+      background: var(--accent);
+      color: var(--bg);
+      transform: scale(1.05);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-social img {
+      height: 32px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-social img:hover {
+      opacity: 0.8;
+    }
+
+    .footer-extra-links {
+      display: flex;
+      gap: 20px;
+      color: #FFFFFF;
+      font-size: 16px;
+    }
+
+    .footer-extra-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .footer-extra-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 30px auto 20px;
+      max-width: 1200px;
+    }
+
+    .footer-copyright {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    .footer-copyright p {
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    /* === Адаптивность === */
+    @media (max-width: 768px) {
+      header {
+        padding: 0 20px;
+        height: 90px;
+      }
+
+      .nav-center {
+        margin: 0 20px;
+        gap: 16px;
+      }
+      
+      .nav-center a {
+        font-size: 18px;
+      }
+      
+      .account-btn {
+        font-size: 18px;
+      }
+
+      .logo-text {
+        font-size: 32px;
+      }
+
+      .main-image { 
+        height: 360px; 
+      }
+
+      .thumbnail { 
+        width: 100px; 
+        height: 100px; 
+        bottom: 16px; 
+        right: 16px; 
+      }
+
+      .character-summary { 
+        font-size: 18px; 
+        padding: 15px 25px; 
+      }
+
+      .detail-box { 
+        padding: 25px; 
+      }
+
+      .detail-box h3 {
+        font-size: 28px;
+      }
+
+      .detail-box p {
+        font-size: 16px;
+      }
+
+      .footer-top,
+      .footer-bottom-row {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-logo-text {
+        font-size: 28px;
+      }
+      
+      .account-sidebar {
+        width: 280px;
+        right: -280px;
+        padding: 25px;
+      }
+      
+      .account-content a {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-center {
+        display: none;
+      }
+      
+      .header-right {
+        margin-left: 0;
+      }
+      
+      .logo-text {
+        font-size: 28px;
+      }
+
+      .character-summary {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      .detail-box h3 {
+        font-size: 24px;
+      }
+
+      .detail-box p {
+        font-size: 15px;
+      }
+      
+      .account-sidebar {
+        width: 250px;
+        right: -250px;
+        padding: 20px;
+      }
+      
+      .account-content a {
+        font-size: 20px;
+      }
+    }
+
+    /* === Языковой селектор === */
+    .language-selector {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent);
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #021a24;
+      border: 1px solid #598392;
+      border-radius: 6px;
+      padding: 8px 0;
+      width: 70px;
+      display: none;
+      z-index: 10;
+    }
+
+    .lang-dropdown.show {
+      display: block;
+    }
+
+    .lang-option {
+      padding: 8px 15px;
+      text-align: center;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.2s;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+    }
+
+    .lang-option:hover {
+      background: #0a3a4a;
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header>
+    <a href="../../../index.html" class="logo">
+      <span class="logo-text">Pocket World</span>
+    </a>
+    <div class="nav-center">
+      <a href="../../../index.html#features" data-lang-key="about">О игре</a>
+      <a href="../../../index.html#characters" data-lang-key="heroes">Герои</a>
+      <a href="../../news.html" data-lang-key="news">Новости</a>
+      <a href="../../../index.html#gallery-section" data-lang-key="gallery">Галерея</a>
+    </div>
+    <div class="header-right">
+      <button class="account-btn" id="accountBtn" data-lang-key="account">Аккаунт</button>
+    </div>
+  </header>
+
+  <!-- Боковая панель аккаунта -->
+  <div class="account-sidebar" id="accountSidebar">
+    <div class="account-content"></div>
+  </div>
+
+  <!-- Основное содержимое -->
+  <main class="character-page">
+    <div class="image-swap-container">
+      <img id="main-img" src="image/Katabuchi_Miyae.png" alt="Yuzuki Katabuchi" class="main-image" />
+      <img id="thumb-img" src="image/чиби.png" alt="Миниатюра Yuzuki" class="thumbnail" />
+    </div>
+
+    <div class="character-summary">
+      <div><strong data-lang-key="name">Имя:</strong> <span data-lang-key="characterName">Yuzuki Katabuchi</span></div>
+      <div><strong data-lang-key="age">Возраст:</strong> <span data-lang-key="characterAge">20-23 года</span></div>
+      <div><strong data-lang-key="role">Роль в истории:</strong> <span data-lang-key="characterRole">Младшая сестра Аяно. Связующее звено между прошлым и настоящим</span></div>
+    </div>
+
+    <div class="character-details">
+      <div class="detail-box">
+        <h3 data-lang-key="biographyTitle">Yuzuki Katabuchi</h3>
+        <p data-lang-key="biographyText1">
+          Младшая сестра Аяно. Именно она выходит на связь с Автором, притворившись вдовой Мияэ, чтобы найти пропавшую сестру.
+        </p>
+        <p data-lang-key="biographyText2">
+          Связующее звено между прошлым и настоящим, между внешним миром и миром семьи Катабути. Она не остановилась перед ложью, чтобы добиться правды.
+        </p>
+      </div>
+
+      <div class="detail-box">
+        <h3 data-lang-key="personalityTitle">Характер</h3>
+        <p data-lang-key="personalityText1">
+          Настойчивая, смелая и любящая. Несмотря на годы разлуки, она не забыла сестру и готова на все, чтобы ее найти.
+        </p>
+        <p data-lang-key="personalityText2">
+          Она — «голос читателя», который так же, как и мы, хочет справедливости для жертв этой истории. Её решимость и готовность рисковать ради правды делают её ключевым персонажем в расследовании.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <a href="../../../index.html" class="footer-logo-text">Pocket World</a>
+        </div>
+        <div class="footer-nav">
+          <a href="../../../index.html#characters" data-lang-key="heroes">Герои</a>
+          <a href="../../sidebar/review.html" data-lang-key="feedback">Отзывы</a>
+          <a href="../../../auth/index.html" data-lang-key="loginRegister">Войти / Регистрация</a>
+        </div>
+        <div class="footer-controls">
+          <button class="scroll-to-top" aria-label="Наверх">↑</button>
+          <div class="language-selector" id="languageSelector">
+            <span class="current-lang">Ru</span>
+            <span class="lang-arrow">▼</span>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="ru">Ru</div>
+              <div class="lang-option" data-lang="en">En</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <div class="footer-social">
+          <a href="#" id="vk-link" aria-label="ВКонтакте">
+            <img src="../../image/vk.svg" alt="ВКонтакте">
+          </a>
+          <a href="https://t.me/+d1kPrFxhLWAwMDk6" target="_blank" aria-label="Telegram">
+            <img src="../../image/telegram.svg" alt="Telegram">
+          </a>
+        </div>
+        <div></div>
+        <div class="footer-extra-links">
+          <a href="#" data-lang-key="privacy">Политика конфиденциальности</a>
+          <a href="../../../sidebar/Help_Desk.html" data-lang-key="support">Поддержка</a>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+      <div class="footer-copyright">
+        <p data-lang-key="copyright">© 2025 Pocket World. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // === ПЕРЕВОДЫ ===
+    const translations = {
+      ru: {
+        'about': 'О игре',
+        'heroes': 'Герои',
+        'news': 'Новости',
+        'gallery': 'Галерея',
+        'account': 'Аккаунт',
+        'name': 'Имя:',
+        'age': 'Возраст:',
+        'role': 'Роль в истории:',
+        'characterName': 'Yuzuki Katabuchi',
+        'characterAge': '20-23 года',
+        'characterRole': 'Младшая сестра Аяно. Связующее звено между прошлым и настоящим',
+        'biographyTitle': 'Yuzuki Katabuchi',
+        'biographyText1': 'Младшая сестра Аяно. Именно она выходит на связь с Автором, притворившись вдовой Мияэ, чтобы найти пропавшую сестру.',
+        'biographyText2': 'Связующее звено между прошлым и настоящим, между внешним миром и миром семьи Катабути. Она не остановилась перед ложью, чтобы добиться правды.',
+        'personalityTitle': 'Характер',
+        'personalityText1': 'Настойчивая, смелая и любящая. Несмотря на годы разлуки, она не забыла сестру и готова на все, чтобы ее найти.',
+        'personalityText2': 'Она — «голос читателя», который так же, как и мы, хочет справедливости для жертв этой истории. Её решимость и готовность рисковать ради правды делают её ключевым персонажем в расследовании.',
+        'feedback': 'Отзывы',
+        'loginRegister': 'Войти / Регистрация',
+        'privacy': 'Политика конфиденциальности',
+        'support': 'Поддержка',
+        'copyright': '© 2025 Pocket World. Все права защищены.',
+        'settings': 'Настройки',
+        'enjoy': 'приятного использования нашим сайтом :)',
+        'logout': 'Выйти',
+        'downloadGame': 'Скачать игру',
+        'register': 'Зарегистрироваться',
+        'login': 'Войти'
+      },
+      en: {
+        'about': 'About',
+        'heroes': 'Heroes',
+        'news': 'News',
+        'gallery': 'Gallery',
+        'account': 'Account',
+        'name': 'Name:',
+        'age': 'Age:',
+        'role': 'Role in story:',
+        'characterName': 'Yuzuki Katabuchi',
+        'characterAge': '20-23 years',
+        'characterRole': 'Ayano\'s younger sister. A link between the past and the present',
+        'biographyTitle': 'Yuzuki Katabuchi',
+        'biographyText1': 'Ayano\'s younger sister. It is she who contacts the Author, pretending to be Miyae\'s widow, to find her missing sister.',
+        'biographyText2': 'A link between the past and the present, between the outside world and the world of the Katabuchi family. She did not stop at lies to get to the truth.',
+        'personalityTitle': 'Personality',
+        'personalityText1': 'Persistent, brave and loving. Despite years of separation, she has not forgotten her sister and is ready to do anything to find her.',
+        'personalityText2': 'She is the "voice of the reader" who, like us, wants justice for the victims of this story. Her determination and willingness to take risks for the truth make her a key character in the investigation.',
+        'feedback': 'Feedback',
+        'loginRegister': 'Login / Register',
+        'privacy': 'Privacy Policy',
+        'support': 'Support',
+        'copyright': '© 2025 Pocket World. All rights reserved.',
+        'settings': 'Settings',
+        'enjoy': 'enjoy using our site :)',
+        'logout': 'Logout',
+        'downloadGame': 'Download Game',
+        'register': 'Register',
+        'login': 'Login'
+      }
+    };
+
+    // Функция получения пользователя
+    function getCurrentUser() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (!isLoggedIn) return null;
+      return {
+        id: localStorage.getItem('userId') || Date.now(),
+        name: localStorage.getItem('username') || 'User',
+        isLoggedIn: true
+      };
+    }
+
+    function applyTranslations() {
+      const lang = localStorage.getItem('userLang') || 'ru';
+      const t = translations[lang];
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (t[key]) {
+          el.textContent = t[key];
+        }
+      });
+      const currentLang = document.querySelector('.current-lang');
+      if (currentLang) {
+        currentLang.textContent = lang === 'ru' ? 'Ru' : 'En';
+      }
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('userLang', lang);
+      applyTranslations();
+    }
+
+    // Обновление боковой панели
+    function updateAccountContent() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const content = document.querySelector('.account-content');
+      if (!content) return;
+
+      const lang = localStorage.getItem('userLang') || 'ru';
+      const t = translations[lang];
+      const username = localStorage.getItem('username') || 'User';
+      const firstLetter = username.charAt(0).toUpperCase();
+
+      if (isLoggedIn) {
+        content.innerHTML = `
+          <div class="account-header">
+            <div class="account-avatar">${firstLetter}</div>
+            <div class="account-username">${username}</div>
+          </div>
+          <nav class="account-nav">
+            <a href="../../../sidebar/settings.html" data-lang-key="settings">${t.settings}</a>
+            <a href="../../../sidebar/Help_Desk.html" data-lang-key="support">${t.support}</a>
+            <a href="../../../sidebar/review.html" data-lang-key="feedback">${t.feedback}</a>
+          </nav>
+          <a href="../../test_version_of_the_game/test_game.html" class="account-download" data-lang-key="downloadGame">${t.downloadGame}</a>
+          <div class="account-divider"></div>
+          <div class="account-info" data-lang-key="enjoy">${t.enjoy}</div>
+          <div class="account-copyright" data-lang-key="copyright">${t.copyright}</div>
+          <button class="logout-btn" onclick="logout()">${t.logout}</button>
+        `;
+      } else {
+        content.innerHTML = `
+          <a href="../../../auth/register.html" class="login-register-btn" style="font-size: 28px; margin: 10px 0; display: block; color: #FFE5B4; text-decoration: none; text-align: center;">${t.register}</a>
+          <a href="../../../auth/index.html" class="login-register-btn" style="font-size: 28px; margin: 10px 0; display: block; color: #FFE5B4; text-decoration: none; text-align: center;">${t.login}</a>
+          <div style="height: 2px; background: #2A6B84; margin: 20px 0;"></div>
+          <nav class="account-nav">
+            <a href="../../../sidebar/settings.html" style="font-size: 24px; margin: 10px 0; display: block; color: #FFE5B4; text-decoration: none;" data-lang-key="settings">${t.settings}</a>
+            <a href="../../../sidebar/Help_Desk.html" style="font-size: 24px; margin: 10px 0; display: block; color: #FFE5B4; text-decoration: none;" data-lang-key="support">${t.support}</a>
+            <a href="../../../sidebar/review.html" style="font-size: 24px; margin: 10px 0; display: block; color: #FFE5B4; text-decoration: none;" data-lang-key="feedback">${t.feedback}</a>
+          </nav>
+          <a href="../../test_version_of_the_game/test_game.html" style="font-size: 28px; margin: 15px 0; display: block; color: #FFE5B4; text-decoration: none; text-align: center;" data-lang-key="downloadGame">${t.downloadGame}</a>
+          <div style="height: 2px; background: #2A6B84; margin: 20px 0;"></div>
+          <div style="font-size: 22px; color: #E0E0E0; text-align: center; margin: 20px 0;" data-lang-key="enjoy">${t.enjoy}</div>
+          <div style="font-size: 20px; color: #B0B0B0; text-align: center; margin-top: 20px;" data-lang-key="copyright">${t.copyright}</div>
+        `;
+      }
+      
+      applyTranslations();
+    }
+
+    // Выход
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      localStorage.removeItem('userEmail');
+      updateAccountContent();
+      document.getElementById('accountSidebar').classList.remove('open');
+    }
+
+    // === Инициализация ===
+    document.addEventListener('DOMContentLoaded', () => {
+      // Язык
+      const savedLang = localStorage.getItem('userLang') || (navigator.language.startsWith('ru') ? 'ru' : 'en');
+      setLanguage(savedLang);
+
+      // Выбор языка
+      const langSelector = document.getElementById('languageSelector');
+      const langDropdown = document.getElementById('langDropdown');
+      if (langSelector) {
+        langSelector.addEventListener('click', e => {
+          e.stopPropagation();
+          langDropdown.classList.toggle('show');
+        });
+      }
+      document.addEventListener('click', e => {
+        if (!e.target.closest('#languageSelector')) {
+          langDropdown?.classList.remove('show');
+        }
+      });
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          setLanguage(opt.getAttribute('data-lang'));
+          langDropdown.classList.remove('show');
+        });
+      });
+
+      // Аккаунт — боковая панель
+      const accountBtn = document.getElementById('accountBtn');
+      const sidebar = document.getElementById('accountSidebar');
+
+      if (accountBtn && sidebar) {
+        accountBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('open');
+          if (sidebar.classList.contains('open')) {
+            updateAccountContent();
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (sidebar.classList.contains('open') &&
+              !sidebar.contains(e.target) &&
+              !accountBtn.contains(e.target)) {
+            sidebar.classList.remove('open');
+          }
+        });
+      }
+
+      // Обмен изображениями
+      const thumb = document.getElementById('thumb-img');
+      const main = document.getElementById('main-img');
+      if (thumb && main) {
+        thumb.addEventListener('click', () => {
+          const temp = main.src;
+          main.src = thumb.src;
+          thumb.src = temp;
+        });
+      }
+
+      // Кнопка "Наверх"
+      document.querySelector('.scroll-to-top').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // VK
+      document.getElementById('vk-link')?.addEventListener('click', e => {
+        e.preventDefault();
+        alert('Извините, группа ВКонтакте пока не создана, но появится в ближайшее время!');
+      });
+    });
+  </script>
+</body>
+</html>

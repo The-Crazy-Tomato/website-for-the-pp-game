@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-lang-key="news4PageTitle">Pocket World — Третья глава</title>
+  <style>
+    /* === Подключение шрифта Sjz === */
+    @font-face {
+        font-family: 'Sjz';
+        src: url('../fonts/Sjz.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    :root {
+      --bg: #01161E;
+      --text: #FFFFFF;
+      --accent: #AEC3B0;
+      --card-bg: #021a24;
+      --sidebar-bg: #12455F;
+      --accent-text: #FFE5B4;
+      --border-color: #2A6B84;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Uncial Antiqua', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* === Sjz для заголовков === */
+    h1, h2, h3, h4, h5, h6,
+    .article-title,
+    .back-link {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      letter-spacing: 0.5px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 120px auto 60px;
+      padding: 0 30px;
+    }
+
+    .back-link {
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      transition: all 0.2s;
+      border: 2px solid var(--accent);
+      border-radius: 30px;
+      padding: 8px 20px;
+    }
+
+    .back-link:hover {
+      color: var(--bg);
+      background: var(--accent);
+    }
+
+    .back-link span {
+      font-size: 20px;
+    }
+
+    .article-title {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: var(--accent);
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+
+    .article-date {
+      font-size: 18px;
+      color: var(--accent-text);
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .article-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin: 30px 0;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .article-content {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #E0E0E0;
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .article-content p {
+      margin-bottom: 20px;
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+    }
+
+    .article-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-list {
+      background: rgba(18, 69, 95, 0.3);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+
+    .article-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+    }
+
+    .article-list-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-list-icon {
+      font-size: 24px;
+      color: var(--accent-text);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .article-list-text {
+      color: #E0E0E0;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .article-warning {
+      background: rgba(212, 64, 64, 0.15);
+      border: 2px solid #D44040;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+
+    .article-warning strong {
+      color: #D44040;
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .article-warning p {
+      color: #ff9999;
+      margin-bottom: 0;
+    }
+
+    .article-highlight {
+      background: rgba(174, 195, 176, 0.1);
+      border: 1px dashed var(--accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      font-style: italic;
+      text-align: center;
+      color: var(--accent-text);
+    }
+
+    .article-divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 30px 0;
+    }
+
+    .article-quote {
+      font-style: italic;
+      color: var(--accent-text);
+      padding: 15px 25px;
+      background: rgba(89, 131, 146, 0.1);
+      border-radius: 12px;
+      margin: 25px 0;
+      border: 1px dashed var(--border-color);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 100px auto 40px;
+        padding: 0 20px;
+      }
+      
+      .article-title {
+        font-size: 32px;
+      }
+      
+      .article-content {
+        padding: 25px;
+        font-size: 16px;
+      }
+      
+      .back-link {
+        font-size: 16px;
+        padding: 6px 16px;
+      }
+      
+      .article-list-item {
+        gap: 10px;
+      }
+      
+      .article-list-icon {
+        font-size: 20px;
+        min-width: 30px;
+      }
+      
+      .article-list-text {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .article-title {
+        font-size: 28px;
+      }
+      
+      .article-date {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../news.html" class="back-link">
+      <span>←</span> <span data-lang-key="backToNews">Назад к новостям</span>
+    </a>
+    
+    <h1 class="article-title" data-lang-key="news4Title">Третья глава уже в работе!</h1>
+    <div class="article-date" data-lang-key="news4Date">10 марта 2026</div>
+    
+    <img src="../image/news-chapter3.jpg" alt="Третья глава" class="article-image" onerror="this.style.display='none'">
+    
+    <div class="article-content">
+      <p data-lang-key="news4Paragraph1">Тишина в доме обманчива.</p>
+      
+      <p data-lang-key="news4Paragraph2">Пока вы разгадывали загадку пустого пространства, за стенами происходило нечто большее. Пока вы анализировали план второго этажа, в тени зрел новый сюжет…</p>
+      
+      <p data-lang-key="news4Paragraph3">Мы рады сообщить: разработка третьей главы официально началась!</p>
+      
+      <div class="article-list">
+        <div class="article-list-item">
+          <span class="article-list-icon">●</span>
+          <span class="article-list-text" data-lang-key="news4Item1">Новая локация — дом, который отражает первый, как зеркало</span>
+        </div>
+        <div class="article-list-item">
+          <span class="article-list-icon">●</span>
+          <span class="article-list-text" data-lang-key="news4Item2">Загадка, связанная с прошлым семьи Катабути</span>
+        </div>
+        <div class="article-list-item">
+          <span class="article-list-icon">●</span>
+          <span class="article-list-text" data-lang-key="news4Item3">Персонаж, который знает больше, чем кажется</span>
+        </div>
+        <div class="article-list-item">
+          <span class="article-list-icon">●</span>
+          <span class="article-list-text" data-lang-key="news4Item4">Выбор, от которого зависит судьба одного из героев</span>
+        </div>
+      </div>
+      
+      <div class="article-warning">
+        <strong data-lang-key="news4WarningTitle">Важно:</strong>
+        <p data-lang-key="news4WarningText">Третья глава будет доступна только тем, кто завершил вторую главу. Тайны должны раскрываться по порядку…</p>
+      </div>
+      
+      <p data-lang-key="news4Paragraph4">Следите за обновлениями. Первые скриншоты появятся уже в апреле.</p>
+      
+      <div class="article-quote" data-lang-key="news4Quote">
+        А пока — перечитайте диалоги. Возможно, вы упустили деталь, которая станет ключом к новой главе…
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === ПЕРЕВОДЫ ===
+    const translations = {
+      ru: {
+        'backToNews': 'Назад к новостям',
+        'news4Title': 'Третья глава уже в работе!',
+        'news4Date': '10 марта 2026',
+        'news4Paragraph1': 'Тишина в доме обманчива.',
+        'news4Paragraph2': 'Пока вы разгадывали загадку пустого пространства, за стенами происходило нечто большее. Пока вы анализировали план второго этажа, в тени зрел новый сюжет…',
+        'news4Paragraph3': 'Мы рады сообщить: разработка третьей главы официально началась!',
+        'news4Item1': 'Новая локация — дом, который отражает первый, как зеркало',
+        'news4Item2': 'Загадка, связанная с прошлым семьи Катабути',
+        'news4Item3': 'Персонаж, который знает больше, чем кажется',
+        'news4Item4': 'Выбор, от которого зависит судьба одного из героев',
+        'news4WarningTitle': 'Важно:',
+        'news4WarningText': 'Третья глава будет доступна только тем, кто завершил вторую главу. Тайны должны раскрываться по порядку…',
+        'news4Paragraph4': 'Следите за обновлениями. Первые скриншоты появятся уже в апреле.',
+        'news4Quote': 'А пока — перечитайте диалоги. Возможно, вы упустили деталь, которая станет ключом к новой главе…'
+      },
+      en: {
+        'backToNews': 'Back to news',
+        'news4Title': 'Chapter three is already in development!',
+        'news4Date': 'March 10, 2026',
+        'news4Paragraph1': 'The silence in the house is deceptive.',
+        'news4Paragraph2': 'While you were solving the mystery of the empty space, something bigger was happening behind the walls. While you were analyzing the second floor plan, a new plot was brewing in the shadows…',
+        'news4Paragraph3': 'We are happy to announce: development of the third chapter has officially begun!',
+        'news4Item1': 'New location — a house that mirrors the first like a reflection',
+        'news4Item2': 'Mystery connected to the Katabuchi family\'s past',
+        'news4Item3': 'A character who knows more than it seems',
+        'news4Item4': 'A choice that determines the fate of one of the heroes',
+        'news4WarningTitle': 'Important:',
+        'news4WarningText': 'The third chapter will only be available to those who have completed the second chapter. Secrets must be revealed in order…',
+        'news4Paragraph4': 'Follow updates. First screenshots will appear in April.',
+        'news4Quote': 'In the meantime, re-read the dialogues. Perhaps you missed a detail that will become the key to the new chapter…'
+      }
+    };
+
+    function applyTranslations() {
+      const lang = localStorage.getItem('userLang') || 'ru';
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('userLang', lang);
+      applyTranslations();
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('userLang') || (navigator.language.startsWith('ru') ? 'ru' : 'en');
+      setLanguage(savedLang);
+    });
+  </script>
+
+</body>
+</html>

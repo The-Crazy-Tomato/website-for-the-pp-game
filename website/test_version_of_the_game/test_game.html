@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pocket World — Игра (демо-версия)</title>
+  <style>
+    /* === Подключение шрифта Sjz === */
+    @font-face {
+        font-family: 'Sjz';
+        src: url('../fonts/Sjz.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    :root {
+      --bg: #01161E;
+      --text: #FFFFFF;
+      --accent: #AEC3B0;
+      --card-bg: #021a24;
+      --sidebar-bg: #12455F;
+      --accent-text: #FFE5B4;
+      --border-color: #2A6B84;
+      --dialogue-bg: rgba(0, 0, 0, 0.9);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Uncial Antiqua', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* === Шапка с кнопками === */
+    .site-header {
+      width: 1024px;
+      max-width: 100%;
+      display: flex;
+      justify-content: space-between; /* Кнопки по краям */
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-to-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 20px;
+      padding: 8px 20px;
+      border: 2px solid var(--accent);
+      border-radius: 30px;
+      transition: all 0.2s;
+    }
+
+    .back-to-site:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-text);
+      color: var(--bg);
+      text-decoration: none;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 20px;
+      padding: 8px 25px;
+      border: 2px solid var(--accent-text);
+      border-radius: 30px;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+
+    .download-btn:hover {
+      background: transparent;
+      color: var(--accent-text);
+      transform: scale(1.05);
+    }
+
+    /* === Игровой контейнер === */
+    .game-wrapper {
+      position: relative;
+      width: 1024px;
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .game-container {
+      width: 100%;
+      aspect-ratio: 1024/768;
+      background-color: #000;
+      border: 4px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    /* === Игровые экраны === */
+    .game-screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Затемнение */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .overlay.light {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .overlay-content {
+      text-align: center;
+    }
+
+    .overlay-text {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 48px;
+      color: var(--accent-text);
+      text-shadow: 0 0 20px var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .overlay-subtext {
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    /* === Меню === */
+    .menu-screen {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #01161E 0%, #021a24 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .menu-title {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 72px;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent);
+      margin-bottom: 60px;
+      letter-spacing: 8px;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 300px;
+    }
+
+    .menu-item {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 28px;
+      color: var(--accent-text);
+      text-decoration: none;
+      padding: 15px 30px;
+      border: 2px solid var(--accent);
+      border-radius: 50px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .menu-item:hover {
+      background: var(--accent);
+      color: var(--bg);
+      transform: scale(1.05);
+      border-color: var(--accent-text);
+    }
+
+    .menu-item.selected {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .menu-footer {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: var(--accent);
+      font-size: 16px;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .menu-footer span {
+      color: var(--accent-text);
+      margin: 0 10px;
+    }
+
+    /* === Диалоговое окно === */
+    .dialogue-box {
+      position: absolute;
+      bottom: 30px;
+      left: 50px;
+      right: 50px;
+      background: var(--dialogue-bg);
+      border: 3px solid var(--accent);
+      border-radius: 16px;
+      padding: 20px 20px 20px 80px;
+      min-height: 200px;
+      z-index: 20;
+      backdrop-filter: blur(5px);
+    }
+
+    .speaker-name {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 24px;
+      color: var(--accent-text);
+      margin-bottom: 10px;
+      margin-left: 30px;
+    }
+
+    .dialogue-text {
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #E0E0E0;
+      min-height: 80px;
+      margin-left: 30px;
+      margin-right: 20px;
+    }
+
+    .continue-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-family: 'Uncial Antiqua', serif;
+      font-size: 14px;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    /* Иконки в диалоговом окне */
+    .dialogue-icons {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon {
+      width: 35px;
+      height: 35px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      filter: brightness(0.8);
+    }
+
+    .icon:hover {
+      transform: scale(1.1);
+      filter: brightness(1.2);
+    }
+
+    .icon.save {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23AEC3B0"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>');
+    }
+
+    .icon.bag {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23AEC3B0"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm0 6c-1.66 0-3-1.34-3-3h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 1.66-1.34 3-3 3z"/></svg>');
+    }
+
+    /* Мини-спрайт в диалоге */
+    .mini-sprite {
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+      width: 190px;
+      height: 190px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+      pointer-events: none;
+    }
+
+    /* === Персонажи === */
+    .character {
+      position: absolute;
+      bottom: 200px;
+      height: 450px;
+      width: 300px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .character.left {
+      left: 120px;
+    }
+
+    .character.center {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .character.right {
+      right: 120px;
+    }
+
+    /* === Сумка (инвентарь) === */
+    .bag-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .bag-window {
+      width: 600px;
+      height: 500px;
+      background: #2A1F3A;
+      border: 3px solid var(--accent);
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .bag-title {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 32px;
+      color: var(--accent-text);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .bag-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .bag-control {
+      width: 40px;
+      height: 40px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      filter: brightness(0.8);
+    }
+
+    .bag-control.settings {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFE5B4"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>');
+    }
+
+    .bag-control.close {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FF6B6B"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>');
+    }
+
+    .bag-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .bag-item {
+      width: 100px;
+      height: 100px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      filter: brightness(0.9);
+    }
+
+    .bag-item:hover {
+      transform: scale(1.1);
+      filter: brightness(1.2);
+    }
+
+    .bag-item.diary {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23B4A07E"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h2v8l2-2 2 2V4h6v16z"/></svg>');
+    }
+
+    .bag-item.phone {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2364B5F6"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
+    }
+
+    /* === Экран телефона === */
+    .phone-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .phone-pulse {
+      width: 100px;
+      height: 100px;
+      border: 4px solid #ff6b6b;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+      margin-bottom: 30px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .phone-caller {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 32px;
+      color: var(--accent-text);
+      margin-bottom: 40px;
+    }
+
+    .phone-answer {
+      width: 150px;
+      height: 60px;
+      background: #4CAF50;
+      border: 2px solid #81C784;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .phone-answer:hover {
+      background: #66BB6A;
+      transform: scale(1.05);
+    }
+
+    /* === Информация под игрой === */
+    .game-info {
+      width: 1024px;
+      max-width: 100%;
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .game-info h3 {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive;
+      font-size: 24px;
+      color: var(--accent-text);
+      margin-bottom: 10px;
+    }
+
+    .game-info p {
+      font-size: 18px;
+      color: #E0E0E0;
+      font-family: 'Uncial Antiqua', serif;
+    }
+
+    .game-info .highlight {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* === Адаптивность === */
+    @media (max-width: 1024px) {
+      .site-header {
+        flex-direction: row; /* Оставляем в ряд даже на мобильных */
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      
+      .game-info {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-header">
+    <a href="../../index.html" class="back-to-site">
+      <span>←</span> Назад на сайт
+    </a>
+    <a href="https://github.com/The-Crazy-Tomato/my-game" target="_blank" class="download-btn">
+      ⬇️ Скачать игру
+    </a>
+  </div>
+
+  <div class="game-wrapper">
+    <div class="game-container" id="gameContainer">
+      <!-- Здесь будет динамически загружаться контент через JavaScript -->
+    </div>
+  </div>
+
+  <div class="game-info">
+    <h3>🎮 Демо-версия игры</h3>
+    <p>Это упрощённая интерактивная демонстрация первого акта игры <span class="highlight">«Pocket World»</span>.</p>
+    <p>В полной версии вас ждут: полноценные спрайты персонажей, озвучка, несколько глав и настоящая концовка!</p>
+  </div>
+
+  <script>
+    // Состояние игры
+    const GameState = {
+      scene: 'menu', // menu, intro, dialogue, ending, present_intro, bag, phone
+      dialogueIndex: 0,
+      textProgress: 0,
+      textSpeed: 25,
+      bagOpen: false,
+      phoneActive: false,
+      inventory: ['План дома от Янаоки'],
+      flags: {
+        yanookaCalled: false,
+        receivedPlan: false
+      },
+      selectedMenuItem: 0,
+      currentDialogue: null,
+      currentBackground: 'author_room',
+      language: 'ru'
+    };
+
+    // Диалоги предыстории
+    const prologueDialogues = [
+      {
+        speaker: "Янаока",
+        text: "Привет! Это Янаока. Извини, что беспокою вечером...",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Автор",
+        text: "Привет, Янаока! Давно не виделись. Что случилось? Ты же звонишь не просто так.",
+        background: "author_room",
+        character: "author",
+        position: "right"
+      },
+      {
+        speaker: "Янаока",
+        text: "Да... Извини, что врываюсь вот так. Просто... мы с женой решили купить дом. Наконец-то. Уже и ребёнок скоро родится, а мы всё в съёмной квартире.",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Автор",
+        text: "Поздравляю!",
+        background: "author_room",
+        character: "author",
+        position: "right"
+      },
+      {
+        speaker: "Янаока",
+        text: "Было бы, если бы не одно... странное место.",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Автор",
+        text: "Хм... И ты думаешь, там что-то... не то?",
+        background: "author_room",
+        character: "author",
+        position: "right"
+      },
+      {
+        speaker: "Янаока",
+        text: "Именно! Агентство говорит: «Ну, бывает такое — ошибка проектировщика, или, может, задумывалось как кладовка, но забыли сделать дверь». Но... почему тогда не переделали?",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Автор",
+        text: "Интересно...",
+        background: "author_room",
+        character: "author",
+        position: "right"
+      },
+      {
+        speaker: "Янаока",
+        text: "Не знаю! Покупать или нет... Когда я стоял там, я ничего удивительного не увидел. Я заметил странность только на плане дома.",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Автор",
+        text: "Понимаю. Давай, как что-то узнаю — напишу.",
+        background: "author_room",
+        character: "author",
+        position: "right"
+      },
+      {
+        speaker: "Янаока",
+        text: "Спасибо... Просто... я не хочу, чтобы после покупки и переезда начались какие-то... проблемы. Особенно сейчас.",
+        background: "author_room_2",
+        character: "yanooka",
+        position: "left"
+      },
+      {
+        speaker: "Система",
+        text: "Разговор окончен. Вам пришло письмо от Янаоки с планом дома.",
+        background: "author_room",
+        character: "system",
+        position: "center",
+        action: "add_plan"
+      }
+    ];
+
+    // Рендер меню
+    function renderMenu() {
+      return `
+        <div class="menu-screen">
+          <div class="menu-title">POCKET WORLD</div>
+          <div class="menu-items">
+            <div class="menu-item selected" onclick="startNewGame()">Новая игра</div>
+          </div>
+          <div class="menu-footer">
+            <span>← →</span> - Выбор, ENTER - Подтвердить<br>
+            <span>ESC</span> - Вернуться в меню<br>
+            <span>ЛКМ</span> - Клик по опциям
+          </div>
+        </div>
+      `;
+    }
+
+    // Рендер затемненного экрана с текстом
+    function renderOverlay(text, light = false, showHint = true) {
+      return `
+        <div class="game-screen" style="background-color: #000;">
+          <div class="overlay ${light ? 'light' : ''}">
+            <div class="overlay-content">
+              <div class="overlay-text">${text}</div>
+              ${showHint ? '<div class="overlay-subtext">ПРОБЕЛ или ЛКМ - продолжить</div>' : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Рендер диалоговой сцены
+    function renderDialogueScene(dialogues, currentIndex) {
+      const dialogue = dialogues[currentIndex];
+      if (!dialogue) return '';
+      
+      const background = dialogue.background || 'author_room';
+      const textToShow = dialogue.text.substring(0, Math.floor(dialogue.text.length * GameState.textProgress));
+      
+      // Определяем позиции персонажей
+      let characterHTML = '';
+      if (dialogue.character && dialogue.character !== 'system') {
+        const position = dialogue.position || 'center';
+        characterHTML = `<div class="character ${position}" style="background-image: url('image/characters/${dialogue.character}.png');"></div>`;
+      }
+      
+      return `
+        <div class="game-screen" style="background-image: url('image/backgrounds/${background}.png');">
+          ${characterHTML}
+          
+          <div class="dialogue-box">
+            <div class="dialogue-icons">
+              <div class="icon save" onclick="saveGame()"></div>
+              <div class="icon bag" onclick="toggleBag()"></div>
+            </div>
+            
+            ${dialogue.speaker !== 'Система' ? `<div class="speaker-name">${dialogue.speaker}</div>` : ''}
+            
+            <div class="dialogue-text">${textToShow}</div>
+            
+            ${GameState.textProgress >= 1 ? 
+              `<div class="continue-hint">ПРОБЕЛ или ЛКМ - продолжить</div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // Рендер сумки
+    function renderBag() {
+      return `
+        <div class="bag-overlay" onclick="if(event.target===this) toggleBag()">
+          <div class="bag-window">
+            <div class="bag-title">Сумка</div>
+            <div class="bag-controls">
+              <div class="bag-control settings" onclick="openSettings()"></div>
+              <div class="bag-control close" onclick="toggleBag()"></div>
+            </div>
+            <div class="bag-items">
+              <div class="bag-item diary" onclick="openDiary()" title="Дневник"></div>
+              <div class="bag-item phone" onclick="openPhone()" title="Телефон"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Рендер экрана телефона
+    function renderPhone() {
+      return `
+        <div class="phone-overlay" onclick="if(event.target===this) closePhone()">
+          <div class="phone-pulse"></div>
+          <div class="phone-caller">Звонит: Курихара</div>
+          <div class="phone-answer" onclick="answerPhone()">ответить</div>
+        </div>
+      `;
+    }
+
+    // Главная функция рендера
+    function render() {
+      const container = document.getElementById('gameContainer');
+      
+      let html = '';
+      
+      switch(GameState.scene) {
+        case 'menu':
+          html = renderMenu();
+          break;
+        case 'intro':
+          html = renderOverlay('Несколько дней назад...');
+          break;
+        case 'dialogue':
+          html = renderDialogueScene(prologueDialogues, GameState.dialogueIndex);
+          break;
+        case 'ending':
+          html = renderOverlay('Предыстория завершена', true, false);
+          break;
+      }
+      
+      // Добавляем сумку поверх, если открыта
+      if (GameState.bagOpen) {
+        html += renderBag();
+      }
+      
+      // Добавляем телефон поверх, если активен
+      if (GameState.phoneActive) {
+        html += renderPhone();
+      }
+      
+      container.innerHTML = html;
+    }
+
+    // Функции управления игрой
+    function startNewGame() {
+      GameState.scene = 'intro';
+      GameState.dialogueIndex = 0;
+      GameState.textProgress = 0;
+      render();
+    }
+
+    function advanceDialogue() {
+      if (GameState.scene === 'intro') {
+        GameState.scene = 'dialogue';
+        render();
+      } else if (GameState.scene === 'dialogue') {
+        if (GameState.textProgress < 1) {
+          GameState.textProgress = 1;
+          render();
+        } else {
+          if (GameState.dialogueIndex < prologueDialogues.length - 1) {
+            GameState.dialogueIndex++;
+            GameState.textProgress = 0;
+            
+            // Выполнение действия диалога
+            const dialogue = prologueDialogues[GameState.dialogueIndex];
+            if (dialogue.action === 'add_plan') {
+              if (!GameState.inventory.includes('План дома от Янаоки')) {
+                GameState.inventory.push('План дома от Янаоки');
+              }
+              GameState.flags.receivedPlan = true;
+            }
+            
+            render();
+          } else {
+            GameState.scene = 'ending';
+            render();
+          }
+        }
+      } else if (GameState.scene === 'ending') {
+        // После предыстории завершена ничего не происходит - возврат в меню
+        GameState.scene = 'menu';
+        render();
+      }
+    }
+
+    function saveGame() {
+      alert('Игра сохранена в слот 1!');
+    }
+
+    function toggleBag() {
+      GameState.bagOpen = !GameState.bagOpen;
+      render();
+    }
+
+    function openSettings() {
+      alert('Настройки игры');
+    }
+
+    function openDiary() {
+      alert('Дневник: Здесь будут записи');
+    }
+
+    function openPhone() {
+      GameState.bagOpen = false;
+      GameState.phoneActive = true;
+      render();
+    }
+
+    function closePhone() {
+      GameState.phoneActive = false;
+      render();
+    }
+
+    function answerPhone() {
+      alert('Звонок Курихары (будет в следующем акте)');
+      GameState.phoneActive = false;
+      render();
+    }
+
+    // Обработка событий клавиатуры
+    document.addEventListener('keydown', (e) => {
+      if (GameState.bagOpen || GameState.phoneActive) {
+        if (e.key === 'Escape') {
+          if (GameState.phoneActive) {
+            GameState.phoneActive = false;
+          } else if (GameState.bagOpen) {
+            GameState.bagOpen = false;
+          }
+          render();
+        }
+        return;
+      }
+      
+      switch(e.key) {
+        case ' ':
+        case 'Space':
+        case 'Enter':
+          e.preventDefault();
+          advanceDialogue();
+          break;
+        case 'Escape':
+          if (GameState.scene !== 'menu') {
+            GameState.scene = 'menu';
+            render();
+          }
+          break;
+      }
+    });
+
+    // Обработка кликов
+    document.addEventListener('click', (e) => {
+      if (GameState.bagOpen || GameState.phoneActive) return;
+      
+      // Клик для продолжения диалога (но не по элементам меню)
+      if (GameState.scene !== 'menu' && !e.target.closest('.menu-item')) {
+        advanceDialogue();
+      }
+    });
+
+    // Инициализация
+    render();
+  </script>
+</body>
+</html>

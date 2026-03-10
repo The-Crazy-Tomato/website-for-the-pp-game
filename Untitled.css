@@ -1,0 +1,792 @@
+/* Подключение шрифта Sjz */
+@font-face {
+  font-family: 'Sjz';
+  src: url('website/fonts/Sjz.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Uncial Antiqua', serif;
+  background-color: #01161E;
+  color: #FFFFFF;
+  scroll-behavior: smooth;
+}
+
+/* === Все заголовки и акценты — Sjz === */
+h1, h2, h3, h4, h5, h6,
+.account-nav a,
+.login-register-btn,
+.account-download,
+.account-info,
+.account-copyright,
+.account-btn,
+.account-btn-footer,
+.text-container h3,
+.gallery-section h2,
+.section h2,
+.character-name,
+.nav-center a,
+.footer-nav a,
+.footer-nav button,
+.logo-text,
+.footer-logo-text {
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+  color: #AEC3B0;
+  letter-spacing: 0.5px;
+}
+
+/* Цвет при наведении */
+.account-nav a:hover,
+.login-register-btn:hover,
+.account-download:hover,
+.account-btn:hover,
+.account-btn-footer:hover,
+.nav-center a:hover,
+.footer-nav a:hover,
+.footer-nav button:hover,
+.logo-text:hover,
+.footer-logo-text:hover {
+  color: #FFFFFF;
+}
+
+/* === Логотипы === */
+.logo-text,
+.footer-logo-text {
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+  font-size: 42px;
+  color: #AEC3B0;
+  letter-spacing: 4px;
+  transition: color 0.2s;
+  white-space: nowrap;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+}
+
+/* === Шапка === */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  height: 100px;
+  background-color: rgba(1, 22, 30, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 0 40px;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #AEC3B0;
+  font-size: 20px;
+  transition: color 0.2s;
+}
+
+.header-right {
+  margin-left: auto;
+}
+
+.account-btn {
+  background: transparent;
+  border: none;
+  color: #AEC3B0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* === Основной контент === */
+.section {
+  padding: 100px 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#home img {
+  width: 100%;
+  max-width: 1200px;
+  height: 600px;
+  object-fit: cover;
+  margin: 80px auto 0;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Чередующиеся блоки */
+.content-pair {
+  display: flex;
+  gap: 40px;
+  margin: 3px 0;
+  width: 100%;
+  max-width: 1200px;
+  align-items: center;
+}
+
+.content-pair.even {
+  flex-direction: row-reverse;
+}
+
+.image-container {
+  flex: 1;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.text-container h3 {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.text-container p {
+  font-family: 'Uncial Antiqua', 'Arial', serif;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #E0E0E0;
+}
+
+/* === Персонажи === */
+#characters {
+  background-color: #021a24;
+  padding: 100px 40px;
+}
+
+#characters h2 {
+  font-size: 48px;
+  margin-bottom: 50px;
+  text-align: center;
+  color: #AEC3B0;
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+}
+
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.character-link {
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.character-link:hover {
+  transform: translateY(-5px);
+}
+
+.character-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.character-item img {
+  width: 180px;
+  height: 135px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid #AEC3B0;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.character-item:hover img {
+  border-color: #FFE5B4;
+  box-shadow: 0 8px 20px rgba(174, 195, 176, 0.3);
+}
+
+.character-name {
+  font-size: 24px;
+  color: #FFE5B4;
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+  text-align: center;
+}
+
+/* Галерея */
+.gallery-section {
+  background-color: #021a24;
+  padding: 100px 40px;
+  text-align: center;
+}
+
+.gallery-section h2 {
+  margin-bottom: 40px;
+  font-size: 48px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* === Боковая панель аккаунта === */
+.account-sidebar {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 330px;
+  height: 100vh;
+  background-color: #12455F;
+  border-left: 1px solid #2A6B84;
+  z-index: 1001;
+  transition: right 0.3s ease-in-out;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-sidebar.open {
+  right: 0;
+}
+
+/* Кнопки регистрации и входа */
+.login-register-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin: 5px auto;
+  font-size: 28px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #FFE5B4 !important;
+  transition: color 0.3s;
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+}
+
+.login-register-btn:hover {
+  color: #FFFFFF !important;
+}
+
+/* Кнопка Скачать игру */
+.account-download {
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin: 5px auto 15px;
+  font-size: 28px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #FFE5B4 !important;
+  transition: color 0.3s;
+  font-family: 'Sjz', 'Uncial Antiqua', cursive;
+}
+
+.account-download:hover {
+  color: #FFFFFF !important;
+}
+
+.account-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.account-nav a {
+  text-decoration: none;
+  font-size: 26px;
+  color: #AEC3B0 !important;
+  transition: color 0.2s;
+  padding: 5px 0;
+  border: none;
+}
+
+.account-nav a:hover {
+  color: #FFFFFF !important;
+}
+
+.account-divider {
+  height: 2px;
+  background-color: #2A6B84;
+  margin: 20px 0;
+}
+
+.account-info {
+  font-size: 22px;
+  text-align: center;
+  margin-top: auto;
+  padding: 20px 0 10px;
+  color: #E0E0E0 !important;
+  line-height: 1.5;
+}
+
+.account-copyright {
+  font-size: 20px;
+  text-align: center;
+  padding: 15px 0 5px;
+  color: #B0B0B0 !important;
+  border-top: 1px solid #2A6B84;
+  margin-top: 10px;
+}
+
+/* Подвал */
+.footer {
+  background-color: #021a24;
+  padding: 60px 40px 30px;
+  margin-top: 60px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top,
+.footer-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-top {
+  margin-bottom: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+}
+
+.footer-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.footer-nav a,
+.footer-nav button {
+  background: transparent;
+  border: none;
+  color: #AEC3B0;
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scroll-to-top {
+  background: none;
+  border: none;
+  color: #AEC3B0;
+  font-size: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.scroll-to-top:hover {
+  color: #FFFFFF;
+}
+
+.language-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #AEC3B0;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #021a24;
+  border: 1px solid #598392;
+  border-radius: 6px;
+  padding: 8px 0;
+  width: 70px;
+  display: none;
+  z-index: 10;
+}
+
+.lang-dropdown.show {
+  display: block;
+}
+
+.lang-option {
+  padding: 8px 15px;
+  text-align: center;
+  color: #AEC3B0;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.2s;
+}
+
+.lang-option:hover {
+  background: #0a3a4a;
+  color: #FFFFFF;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-social img {
+  height: 32px;
+  transition: opacity 0.2s;
+}
+
+.footer-social img:hover {
+  opacity: 0.8;
+}
+
+.footer-extra-links {
+  display: flex;
+  gap: 20px;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+
+.footer-extra-links a {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.footer-extra-links a:hover {
+  color: #AEC3B0;
+  text-decoration: underline;
+}
+
+.footer-divider {
+  height: 2px;
+  background-color: #598392;
+  margin: 30px auto 20px;
+  max-width: 1200px;
+}
+
+.footer-copyright {
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.footer-copyright p {
+  font-family: 'Uncial Antiqua', 'Arial', serif;
+}
+
+/* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
+@media (max-width: 768px) {
+  /* Шапка */
+  header {
+    padding: 0 20px;
+    height: 80px;
+  }
+  
+  .logo-text {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+  
+  /* В шапке только Новости и Аккаунт */
+  .nav-center a:not([data-lang-key="news"]) {
+    display: none;
+  }
+  
+  .nav-center {
+    justify-content: flex-end;
+    margin: 0;
+  }
+  
+  .nav-center a[data-lang-key="news"] {
+    font-size: 18px;
+    display: block;
+    margin-right: 15px;
+  }
+  
+  .header-right {
+    margin-left: 0;
+  }
+  
+  .account-btn {
+    font-size: 18px;
+  }
+  
+  /* Баннер */
+  #home img {
+    height: 300px;
+    margin: 70px auto 0;
+  }
+  
+  /* Контент */
+  .content-pair {
+    flex-direction: column !important;
+    gap: 20px;
+    padding: 20px 0;
+  }
+  
+  .image-container {
+    width: 100%;
+    height: 250px;
+  }
+  
+  .text-container {
+    padding: 15px;
+  }
+  
+  .text-container h3 {
+    font-size: 28px;
+  }
+  
+  .text-container p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Персонажи */
+  #characters {
+    padding: 60px 20px;
+  }
+  
+  #characters h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+  }
+  
+  .characters-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .character-item img {
+    width: 150px;
+    height: 112px;
+  }
+  
+  .character-name {
+    font-size: 20px;
+  }
+  
+  /* Галерея */
+  .gallery-section {
+    padding: 60px 20px;
+  }
+  
+  .gallery-section h2 {
+    font-size: 36px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  /* Подвал - убираем Герои и Отзывы, оставляем Новости и Войти */
+  .footer-nav a[data-lang-key="heroes"],
+  .footer-nav a[data-lang-key="feedback"] {
+    display: none;
+  }
+  
+  .footer-nav a[data-lang-key="news"] {
+    display: block;
+    font-size: 16px;
+  }
+  
+  .footer-nav {
+    gap: 15px;
+  }
+  
+  .footer-logo-text {
+    font-size: 24px;
+  }
+  
+  .footer-bottom-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .footer-extra-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Боковая панель аккаунта */
+  .account-sidebar {
+    width: 280px;
+    right: -280px;
+  }
+  
+  .account-content a {
+    font-size: 20px;
+  }
+}
+
+/* текст <-> кнопки на мобилке */
+.mobile-download-text {
+  font-size: 18px;
+  color: #AEC3B0;
+  text-align: center;
+  margin: 15px 0;
+  padding: 12px;
+  background: rgba(18, 69, 95, 0.3);
+  border: 1px dashed #2A6B84;
+  border-radius: 8px;
+  font-family: 'Uncial Antiqua', serif;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 22px;
+  }
+  
+  .nav-center a[data-lang-key="news"] {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  .account-btn {
+    font-size: 16px;
+  }
+  
+  #home img {
+    height: 200px;
+  }
+  
+  .image-container {
+    height: 200px;
+  }
+  
+  .text-container h3 {
+    font-size: 24px;
+  }
+  
+  .text-container p {
+    font-size: 15px;
+  }
+  
+  #characters h2 {
+    font-size: 28px;
+  }
+  
+  .characters-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .character-item img {
+    width: 180px;
+    height: 135px;
+  }
+  
+  .character-name {
+    font-size: 22px;
+  }
+  
+  .gallery-section h2 {
+    font-size: 28px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .account-sidebar {
+    width: 250px;
+    right: -250px;
+    padding: 20px;
+  }
+  
+  .account-content a {
+    font-size: 18px;
+  }
+
+  .mobile-download-text {
+    font-size: 16px;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — Pocket World</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="back-button" onclick="window.location.href='../index.html'">
+        <svg viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h2>Добро пожаловать!</h2>
+            <p class="subtitle">Войдите в свой аккаунт</p>
+            
+            <!-- Блок для уведомления об успешной регистрации -->
+            <div id="successMessage" class="success-message" style="display: none;">
+                Регистрация успешна! Теперь войдите.
+            </div>
+            
+            <form id="loginForm" method="POST">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Пароль" required>
+                </div>
+
+                <div class="options">
+                    <label><input type="checkbox"> Запомнить меня</label>
+                    <a href="#">Забыли пароль?</a>
+                </div>
+
+                <button type="submit" class="btn">Войти</button>
+            </form>
+
+            <div class="footer-text">
+                Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+            </div>
+            <div id="error-message" style="color: red; margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <script>
+    // Проверяем URL на наличие параметра success
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success') && urlParams.get('success') === 'registered') {
+        // Показываем сообщение об успешной регистрации
+        const successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'block';
+        
+        // Автоматически скрываем сообщение через 5 секунд
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 5000);
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+            
+            const response = await fetch('login_action.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', data.user.username);
+                localStorage.setItem('userEmail', data.user.email);
+                localStorage.setItem('userId', data.user.id);
+                
+                window.location.href = '../index.html';
+            } else {
+                document.getElementById('error-message').textContent = data.message || 'Ошибка входа';
+            }
+        } catch (error) {
+            document.getElementById('error-message').textContent = 'Ошибка соединения с сервером';
+        }
+    });
+    </script>
+
+    <style>
+    /* Стили для сообщения об успехе */
+    .success-message {
+        background: rgba(76, 175, 80, 0.2);
+        border: 2px solid #4CAF50;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        color: #4CAF50;
+        text-align: center;
+        font-family: 'Sjz', 'Uncial Antiqua', cursive;
+        font-size: 18px;
+        animation: fadeInOut 5s ease-in-out;
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-10px); }
+        10% { opacity: 1; transform: translateY(0); }
+        90% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-10px); }
+    }
+    </style>
+</body>
+</html>

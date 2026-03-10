@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Техподдержка | Pocket World</title>
+  <style>
+    /* === Подключение шрифта Sjz === */
+    @font-face {
+        font-family: 'Sjz';
+        src: url('../fonts/Sjz.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    :root {
+      --bg: #01161E;
+      --text: #FFFFFF;
+      --accent: #AEC3B0;
+      --card-bg: #021a24;
+      --sidebar-bg: #12455F;
+      --accent-text: #FFE5B4;
+      --border-color: #2A6B84;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Uncial Antiqua', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* === Sjz для ВСЕХ заголовков === */
+    h1, h2, h3, h4, h5, h6,
+    .page-title,
+    button,
+    .contact-text,
+    .back-btn,
+    .header button,
+    .help-container h1,
+    .help-container h2 {
+      font-family: 'Sjz', 'Uncial Antiqua', cursive !important;
+      letter-spacing: 0.5px;
+    }
+
+    .header {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 24px;
+    }
+
+    .back-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      transform: scale(1.05);
+    }
+
+    .page-title {
+      font-size: 42px;
+      color: var(--accent);
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+      letter-spacing: 2px;
+    }
+
+    .help-container {
+      width: 100%;
+      max-width: 700px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      border: 2px solid var(--border-color);
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      color: var(--accent-text);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .textarea {
+      width: 100%;
+      height: 180px;
+      padding: 15px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Uncial Antiqua', 'Arial', serif;
+      font-size: 18px;
+      resize: vertical;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+
+    .textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .send-btn {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      color: var(--accent-text);
+      border: 2px solid var(--accent-text);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 24px;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+
+    .send-btn:hover {
+      background: var(--accent-text);
+      color: var(--bg);
+      transform: scale(1.02);
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 40px 0;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(18, 69, 95, 0.5);
+      border-radius: 10px;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+    }
+
+    .contact-item:hover {
+      background: rgba(18, 69, 95, 0.8);
+      transform: translateX(5px);
+      border-color: var(--accent);
+    }
+
+    .contact-icon {
+      width: 28px;
+      height: 28px;
+      opacity: 0.9;
+      filter: brightness(0) invert(0.8);
+    }
+
+    .contact-text {
+      font-size: 20px;
+      color: var(--accent-text);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .contact-text:hover {
+      color: var(--accent);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+
+      .help-container {
+        padding: 25px;
+      }
+
+      .page-title {
+        font-size: 32px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .back-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .send-btn {
+        font-size: 20px;
+        padding: 12px;
+      }
+
+      .contact-text {
+        font-size: 18px;
+      }
+
+      .contact-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .page-title {
+        font-size: 28px;
+      }
+
+      .section-title {
+        font-size: 22px;
+      }
+
+      .contact-text {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <div class="header">
+    <button class="back-btn" onclick="window.history.back()">←</button>
+    <h1 class="page-title" data-lang-key="supportTitle">Техподдержка</h1>
+    <div style="width: 40px;"></div>
+  </div>
+
+  <!-- Основное содержимое -->
+  <div class="help-container">
+    <div class="section">
+      <h2 class="section-title" data-lang-key="errorMessage">Если нашли ошибку, напишите нам — мы будем очень благодарны</h2>
+      <textarea class="textarea" id="problemTextarea" placeholder="Опишите проблему..."></textarea>
+      <button class="send-btn" id="sendBtn" data-lang-key="sendButton">Отправить</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h2 class="section-title" data-lang-key="contactTitle">Другие способы связаться с нами</h2>
+      <div class="contact-links">
+        <div class="contact-item">
+          <img src="../image/telegram.svg" alt="Telegram" class="contact-icon">
+          <a href="https://t.me/quantum_pulse_x" target="_blank" class="contact-text">@quantum_pulse_x</a>
+        </div>
+        <div class="contact-item">
+          <img src="../image/whatsapp.svg" alt="WhatsApp" class="contact-icon">
+          <a href="https://api.whatsapp.com/send?phone=79990001122" target="_blank" class="contact-text">+7 (999) 000-11-22</a>
+        </div>
+        <div class="contact-item">
+          <img src="../image/vk.svg" alt="VK" class="contact-icon">
+          <a href="#" class="contact-text" data-lang-key="whatsappGroup">VK</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === ПЕРЕВОДЫ ===
+    const translations = {
+      ru: {
+        'supportTitle': 'Техподдержка',
+        'errorMessage': 'Если нашли ошибку, напишите нам — мы будем очень благодарны',
+        'sendButton': 'Отправить',
+        'contactTitle': 'Другие способы связаться с нами',
+        'whatsappGroup': 'Группа VK',
+        'textareaPlaceholder': 'Опишите проблему...',
+        'alertEmpty': 'Пожалуйста, опишите проблему',
+        'alertSuccess': 'Спасибо за обратную связь! Мы рассмотрим вашу проблему в ближайшее время.',
+        'alertError': 'Ошибка при отправке. Попробуйте позже.'
+      },
+      en: {
+        'supportTitle': 'Support',
+        'errorMessage': 'If you found a bug, write to us — we will be very grateful',
+        'sendButton': 'Send',
+        'contactTitle': 'Other ways to contact us',
+        'whatsappGroup': 'VK Group',
+        'textareaPlaceholder': 'Describe the problem...',
+        'alertEmpty': 'Please describe the problem',
+        'alertSuccess': 'Thank you for your feedback! We will consider your problem as soon as possible.',
+        'alertError': 'Error sending message. Try again later.'
+      }
+    };
+
+    // Функция применения переводов
+    function applyTranslations() {
+      const lang = localStorage.getItem('userLang') || 'ru';
+      const t = translations[lang];
+      
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (t[key]) {
+          el.textContent = t[key];
+        }
+      });
+      
+      const textarea = document.querySelector('.textarea');
+      if (textarea) {
+        textarea.placeholder = t.textareaPlaceholder;
+      }
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('userLang', lang);
+      applyTranslations();
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('userLang') || 'ru';
+      applyTranslations();
+    });
+
+    // Отправка формы
+    document.querySelector('.send-btn').addEventListener('click', async function() {
+      const textarea = document.querySelector('.textarea');
+      const message = textarea.value.trim();
+      const lang = localStorage.getItem('userLang') || 'ru';
+      const t = translations[lang];
+    
+      if (message === '') {
+        alert(t.alertEmpty);
+        return;
+      }
+    
+      const btn = this;
+      btn.disabled = true;
+      btn.textContent = lang === 'ru' ? 'Отправка...' : 'Sending...';
+    
+      try {
+        // Используем правильный путь к файлу
+        const response = await fetch('../send_support.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: 'message=' + encodeURIComponent(message)
+        });
+        
+        // Проверяем, что ответ - JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Сервер вернул неверный формат данных');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          alert(t.alertSuccess);
+          textarea.value = '';
+        } else {
+          alert(result.message || t.alertError);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert(t.alertError || 'Ошибка соединения с сервером');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = t.sendButton;
+      }
+    });
+  </script>
+
+</body>
+</html>
