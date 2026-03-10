@@ -75,17 +75,16 @@ function setLanguage(lang) {
   applyTranslations();
 }
 
-// Функция для получения имени пользователя из localStorage
+// Ф получения имени из localStorage
 function getUsername() {
   return localStorage.getItem('username') || 'User';
 }
 
-// Функция для проверки авторизации
+// Ф для проверки авт
 function isUserLoggedIn() {
   return localStorage.getItem('isLoggedIn') === 'true';
 }
 
-// ОБНОВЛЁННАЯ ФУНКЦИЯ — ТОЛЬКО ССЫЛКИ, БЕЗ ВКЛАДОК
 function updateAccountContent() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const content = document.querySelector('.account-content');
@@ -262,4 +261,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
 });
